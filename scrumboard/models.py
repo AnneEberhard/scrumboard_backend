@@ -1,13 +1,16 @@
 from datetime import date
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
-class CustomUser(AbstractUser):
+class Contact(models.Model):
+    first_name = models.CharField(max_length=15)
+    last_name = models.CharField(max_length=15)
+    email = models.CharField(max_length=15)
     phone = models.CharField(max_length=15)
     acronym = models.CharField(max_length=3)
     color = models.CharField(max_length=15)
-    groups = models.ManyToManyField(Group, related_name='custom_user_groups')
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')
+    
 
 
 class UserDefCategory(models.Model):
@@ -16,7 +19,7 @@ class UserDefCategory(models.Model):
 
 
 class Task(models.Model):
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateField(default=date.today)
     title = models.CharField(max_length=15)
     description = models.TextField()
