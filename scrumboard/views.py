@@ -37,7 +37,7 @@ class TaskView(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
-        serializer = ContactSerializer(data=request.data)
+        serializer = TaskSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -55,7 +55,7 @@ class UserDefCategoryView(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
-        serializer = ContactSerializer(data=request.data)
+        serializer = UserDefCategorySerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -73,12 +73,15 @@ class FreeColorsView(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
-        serializer = ContactSerializer(data=request.data)
+        serializer = FreeColorSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
