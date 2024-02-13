@@ -7,6 +7,7 @@ from scrumboard.serializer import ContactSerializer, FreeColorSerializer, TaskSe
 from .models import Contact, FreeColor, Task, UserDefCategory
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 class ContactView(APIView):
     #authentication_classes = [TokenAuthentication]
@@ -17,6 +18,14 @@ class ContactView(APIView):
         serializer = ContactSerializer(tasks, many=True)
         return Response(serializer.data)
 
+    def post(self, request, format=None):
+        serializer = ContactSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class TaskView(APIView):
     #authentication_classes = [TokenAuthentication]
@@ -26,6 +35,14 @@ class TaskView(APIView):
         tasks = Task.objects.all()
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        serializer = ContactSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserDefCategoryView(APIView):
@@ -37,6 +54,14 @@ class UserDefCategoryView(APIView):
         serializer = UserDefCategorySerializer(tasks, many=True)
         return Response(serializer.data)
     
+    def post(self, request, format=None):
+        serializer = ContactSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class FreeColorsView(APIView):
     #authentication_classes = [TokenAuthentication]
@@ -46,7 +71,14 @@ class FreeColorsView(APIView):
         tasks = FreeColor.objects.all()
         serializer = FreeColorSerializer(tasks, many=True)
         return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        serializer = ContactSerializer(data=request.data)
 
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

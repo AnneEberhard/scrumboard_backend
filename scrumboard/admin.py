@@ -10,7 +10,7 @@ class taskAdmin(admin.ModelAdmin):
     search_fields = ('title', 'priority')
 
 class UserDefCategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'color')
+    list_display = ('name', 'colorCode')
 
 admin.site.register(Contact, contactAdmin)
 admin.site.register(Task, taskAdmin)

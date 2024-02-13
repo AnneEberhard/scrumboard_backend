@@ -25,8 +25,8 @@ class Task(models.Model):
     
 
 class UserDefCategory(models.Model):
-    title = models.CharField(max_length=15)
-    color = models.CharField(max_length=15)
+    name = models.CharField(max_length=15)
+    colorCode = models.CharField(max_length=15)
 
 
 class FreeColor(models.Model):
