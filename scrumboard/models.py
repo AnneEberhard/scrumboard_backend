@@ -9,18 +9,24 @@ class Contact(models.Model):
     phone = models.CharField(max_length=15)
     acronym = models.CharField(max_length=3)
     color = models.CharField(max_length=15)
-    
+
+
+class Subtask(models.Model):
+    subTaskName = models.TextField(default='')
+    subTaskDone = models.BooleanField(default=False)
+    taskId = models.IntegerField(default=0)
+
 
 class Task(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateField(default=date.today)
     title = models.CharField(max_length=15, default='')
     description = models.TextField(default='')
-    category = models.CharField(max_length=15, default='')
-    assignedContacts = models.TextField(blank=True, default='[]')
+    category = models.CharField(max_length=30, default='')
+    assignedContacts = models.ManyToManyField(Contact)
     dueDate = models.DateField(default=date.today)
     prio = models.CharField(max_length=15, default='')
-    subtasks = models.TextField(blank=True, default='[]')
+    subtasks = models.ManyToManyField(Subtask, blank=True)
     column = models.CharField(max_length=30, default='')
     
 

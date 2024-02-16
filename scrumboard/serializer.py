@@ -1,4 +1,4 @@
-from .models import Contact, FreeColor, Task, UserDefCategory
+from .models import Contact, FreeColor, Subtask, Task, UserDefCategory
 from rest_framework import serializers
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -22,4 +22,10 @@ class UserDefCategorySerializer(serializers.ModelSerializer):
 class FreeColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreeColor
+        fields = '__all__'
+
+
+class SubTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subtask
         fields = '__all__'
