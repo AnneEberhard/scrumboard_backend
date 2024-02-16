@@ -27,7 +27,7 @@ class Task(models.Model):
     dueDate = models.DateField(default=date.today)
     prio = models.CharField(max_length=15, default='')
     subtasks = models.ManyToManyField(Subtask, blank=True)
-    column = models.CharField(max_length=30, default='')
+    column = models.CharField(max_length=50, default='')
     
 
 class UserDefCategory(models.Model):
