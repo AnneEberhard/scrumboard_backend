@@ -2,6 +2,8 @@ from datetime import date
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Contact(models.Model):
     user_name = models.CharField(max_length=50, default='')
@@ -9,12 +11,6 @@ class Contact(models.Model):
     phone = models.CharField(max_length=15)
     acronym = models.CharField(max_length=3)
     color = models.CharField(max_length=15)
-
-
-class Subtask(models.Model):
-    subTaskName = models.TextField(default='')
-    subTaskDone = models.BooleanField(default=False)
-    taskId = models.IntegerField(default=0)
 
 
 class Task(models.Model):
@@ -26,9 +22,14 @@ class Task(models.Model):
     assignedContacts = models.ManyToManyField(Contact)
     dueDate = models.DateField(default=date.today)
     prio = models.CharField(max_length=15, default='')
-    subtasks = models.ManyToManyField(Subtask, blank=True)
     column = models.CharField(max_length=50, default='')
     
+
+class Subtask(models.Model):
+    subTaskName = models.TextField(default='')
+    subTaskDone = models.BooleanField(default=False)
+    taskId = models.ForeignKey(Task, on_delete=models.CASCADE)
+
 
 class UserDefCategory(models.Model):
     name = models.CharField(max_length=15)

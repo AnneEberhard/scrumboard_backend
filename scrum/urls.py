@@ -28,6 +28,6 @@ urlpatterns = [
     path('subTasks/', SubtaskView.as_view()),
     path('contacts/<int:pk>/', ContactView.as_view(), name='contact-detail'),
     path('tasks/<int:pk>/', TaskView.as_view(), name='task-detail'),
-    path('savedCategories/<int:pk>/', SubtaskView.as_view(), name='userDefCategory-detail'),
+    path('savedCategories/<int:pk>/', UserDefCategoryView.as_view(), name='userDefCategory-detail'),
     path('subTasks/<int:pk>/', SubtaskView.as_view(), name='subtask-detail'),
 ]
