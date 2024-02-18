@@ -3,12 +3,13 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from scrumboard.serializer import ContactSerializer, SubTaskSerializer, TaskSerializer, UserDefCategorySerializer
+from scrumboard.serializer import ContactSerializer, SubTaskSerializer, TaskSerializer, UserDefCategorySerializer, UserSerializer
 from .models import Contact, Subtask, Task, UserDefCategory
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
+from django.contrib.auth.models import User
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     #authentication_classes = [TokenAuthentication]
@@ -51,3 +52,25 @@ class LoginView(ObtainAuthToken):
             'user_id': user.pk,
             'email': user.email
         })  
+    
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        request.auth.delete()
+        return Response({'message': 'Logout erfolgreich'}, status=status.HTTP_200_OK)
+
+
+class RegistrationView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer  # Du musst den passenden Serializer erstellen
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == status.HTTP_201_CREATED:
+            user = User.objects.get(username=request.data['username'])
+            return Response({'user_id': user.pk, 'username': user.username}, status=status.HTTP_201_CREATED)
+        return response
+
+

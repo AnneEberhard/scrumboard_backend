@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from scrumboard.views import ContactView, LoginView, SubtaskView, TaskView, UserDefCategoryView
+from scrumboard.views import ContactView, LoginView, LogoutView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view()),
+    path('register/', RegistrationView.as_view()),
+    path('logout/', LogoutView.as_view()),
     path('contacts/', ContactView.as_view()),
     path('tasks/', TaskView.as_view()),
     path('savedCategories/', UserDefCategoryView.as_view()),

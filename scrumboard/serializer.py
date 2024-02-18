@@ -24,3 +24,8 @@ class SubTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subtask
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subtask
+        fields = '__all__'
