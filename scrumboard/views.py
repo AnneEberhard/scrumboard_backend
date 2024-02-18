@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     #authentication_classes = [TokenAuthentication]
@@ -64,13 +65,19 @@ class LogoutView(APIView):
 
 class RegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer  # Du musst den passenden Serializer erstellen
+    serializer_class = UserSerializer 
+
+    def perform_create(self, serializer):
+        hashed_password = make_password(serializer.validated_data['password'])
+        serializer.validated_data['password'] = hashed_password
+        user = User.objects.create_user(**serializer.validated_data)
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == status.HTTP_201_CREATED:
             user = User.objects.get(username=request.data['username'])
-            return Response({'user_id': user.pk, 'username': user.username}, status=status.HTTP_201_CREATED)
+            return Response({'user_id': user.pk, 'email': user.email}, status=status.HTTP_201_CREATED)
         return response
+
 
 

@@ -2,13 +2,12 @@ from datetime import date
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+
 
 class Contact(models.Model):
     user_name = models.CharField(max_length=50, default='')
-    email = models.CharField(max_length=15)
-    phone = models.CharField(max_length=15)
+    email = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30)
     acronym = models.CharField(max_length=3)
     color = models.CharField(max_length=15)
 

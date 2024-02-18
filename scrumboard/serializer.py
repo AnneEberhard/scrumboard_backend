@@ -1,5 +1,6 @@
 from .models import Contact, Subtask, Task, UserDefCategory
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,5 +28,5 @@ class SubTaskSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subtask
+        model = User
         fields = '__all__'
