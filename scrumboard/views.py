@@ -11,6 +11,7 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from rest_framework.generics import RetrieveAPIView
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     #authentication_classes = [TokenAuthentication]
@@ -39,7 +40,6 @@ class SubtaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIV
     queryset = Subtask.objects.all()
     serializer_class = SubTaskSerializer   
  
-    
 
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -54,6 +54,7 @@ class LoginView(ObtainAuthToken):
             'email': user.email
         })  
     
+
 class LogoutView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -80,4 +81,15 @@ class RegistrationView(generics.CreateAPIView):
         return response
 
 
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        user = request.user
+        data = {
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+        }
+        return Response(data)
