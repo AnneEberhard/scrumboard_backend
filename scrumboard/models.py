@@ -13,7 +13,7 @@ class Contact(models.Model):
 
 
 class Task(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     created_at = models.DateField(default=date.today)
     title = models.CharField(max_length=15, default='')
     description = models.TextField(default='')
@@ -34,6 +34,3 @@ class UserDefCategory(models.Model):
     name = models.CharField(max_length=15)
     colorCode = models.CharField(max_length=15)
 
-
-class FreeColor(models.Model):
-    freeColorCode = models.CharField(max_length=15)
