@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -9,34 +8,31 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
-from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
-from rest_framework.generics import RetrieveAPIView
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
    
 class TaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
 
 class UserDefCategoryView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = UserDefCategory.objects.all()
     serializer_class = UserDefCategorySerializer  
   
 
 class SubtaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Subtask.objects.all()
     serializer_class = SubTaskSerializer   
  
@@ -67,15 +63,3 @@ class RegistrationView(generics.CreateAPIView):
     serializer_class = UserSerializer 
 
 
-class CurrentUserView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user
-        data = {
-            'username': user.username,
-            'email': user.email,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-        }
-        return Response(data)

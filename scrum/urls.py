@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from scrumboard.views import ContactView, CurrentUserView, LogoutView,LoginView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
+from scrumboard.views import ContactView, LogoutView,LoginView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,5 +33,4 @@ urlpatterns = [
     path('tasks/<int:pk>/', TaskView.as_view(), name='task-detail'),
     path('savedCategories/<int:pk>/', UserDefCategoryView.as_view(), name='userDefCategory-detail'),
     path('subTasks/<int:pk>/', SubtaskView.as_view(), name='subtask-detail'),
-    path('users/me/', CurrentUserView.as_view(), name='current-user'),
 ]
