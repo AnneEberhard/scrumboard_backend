@@ -41,20 +41,17 @@ class SubtaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIV
     serializer_class = SubTaskSerializer   
  
 
-class LoginView(ObtainAuthToken):
+class LoginView(ObtainAuthToken): 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
+        return Response({'token': token.key,
             'user_id': user.pk,
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'email': user.email
-        })  
+            'email': user.email}) 
     
 
 class LogoutView(APIView):
@@ -67,20 +64,7 @@ class LogoutView(APIView):
 
 
 class RegistrationView(generics.CreateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer 
-
-    def perform_create(self, serializer):
-        hashed_password = make_password(serializer.validated_data['password'])
-        serializer.validated_data['password'] = hashed_password
-        user = User.objects.create_user(**serializer.validated_data)
-
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == status.HTTP_201_CREATED:
-            user = User.objects.get(username=request.data['username'])
-            return Response({'user_id': user.pk, 'email': user.email}, status=status.HTTP_201_CREATED)
-        return response
 
 
 class CurrentUserView(APIView):

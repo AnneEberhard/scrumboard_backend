@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework.authtoken.views import ObtainAuthToken
 
-from scrumboard.views import ContactView, CurrentUserView, LoginView, LogoutView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
+from scrumboard.views import ContactView, CurrentUserView, LogoutView,LoginView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
