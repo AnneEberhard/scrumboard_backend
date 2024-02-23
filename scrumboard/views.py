@@ -8,6 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
+from django.contrib.auth.models import User
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
@@ -63,3 +64,15 @@ class RegistrationView(generics.CreateAPIView):
     serializer_class = UserSerializer 
 
 
+class ForgotView(APIView):
+    def post(self, request):
+        email = request.data.get('email', None)
+
+        if not email:
+            return Response({'error': 'E-Mail-Adresse fehlt'}, status=400)
+
+        try:
+            user = User.objects.get(email=email)
+            return Response({'exists': True}, status=200)
+        except User.DoesNotExist:
+            return Response({'exists': False}, status=200)
