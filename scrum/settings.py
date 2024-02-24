@@ -30,8 +30,11 @@ ALLOWED_HOSTS = ['localhost',
     '127.0.0.1',
     'anne.pythonanywhere.com']
 
+CORS_ALLOWED_ORIGINS = [ '*', 'localhost', '127.0.0.1', "http://localhost:5500", "http://127.0.0.1:5500"]
 
-CORS_ALLOWED_ORIGINS = [ '*', 'localhost', '127.0.0.1', "http://localhost:5500", "http://127.0.0.1:5500",]
+CORS_ALLOW_CREDENTIALS = True 
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5500']
 
 
 # Application definition
@@ -50,14 +53,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'scrum.urls'
