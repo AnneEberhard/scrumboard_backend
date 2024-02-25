@@ -3,17 +3,31 @@ from django.contrib.auth.models import User
 
 # Create your tests here.
 class TaskTest(TestCase):
-    def test_taskpage(self):
+    def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='test_user', password ='test_user')
-        self.client.login(username='test_user', password='test_user')
-        response = self.client.get('tasks/')
+        self.user = User.objects.create_user(username='test_user', password='test_user')
+        
+    def test_login(self):
+        response = self.client.post('/login/', {'username': 'test_user', 'password': 'test_user'})
         self.assertEqual(response.status_code, 200)
 
-class ForgotTest(TestCase):
-    def test_taskpage(self):
-        self.client = Client()
-        self.user = User.objects.create_user(username='test_user', password ='test_user')
-        self.client.login(username='test_user', password='test_user')
-        response = self.client.get('forgot/')
+    def authenticate_user(self, username, password):
+        response = self.client.post('/login/', {'username': username, 'password': password})
         self.assertEqual(response.status_code, 200)
+        token = response.data.get('token') 
+        print(f"Hallo, {token}")
+        return token
+
+    def test_taskpage(self):
+        token = self.authenticate_user('test_user', 'test_user')
+        print(f"Hallo again, {token}")
+        headers = {'Authorization': f'Bearer {token}'}
+
+        response = self.client.get('/tasks/', headers=headers)
+        self.assertEqual(response.status_code, 200)
+
+
+
+
+
+        

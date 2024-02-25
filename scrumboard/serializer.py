@@ -57,7 +57,8 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 """
-This serializer handles the authtokens and is needed for the creation of a correct password
+This serializer handles the authtokens and is needed for the creation of a token for login
+Serializer is called in LogInView: serializer = self.get_serializer(data=request.data)
 """
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
