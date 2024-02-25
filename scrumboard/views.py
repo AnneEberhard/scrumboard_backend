@@ -18,6 +18,9 @@ from django.contrib.auth.views import PasswordResetConfirmView
 from django.middleware.csrf import get_token
 from django.views import View
 
+"""
+This view handles the contacts
+"""
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
@@ -25,7 +28,10 @@ class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIV
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-   
+
+"""
+This view handles the tasks
+"""   
 class TaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -33,20 +39,27 @@ class TaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
     serializer_class = TaskSerializer
 
 
+"""
+This view handles the user defined categories
+"""
 class UserDefCategoryView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = UserDefCategory.objects.all()
     serializer_class = UserDefCategorySerializer  
   
-
+"""
+This view handles the subtasks and is linked to a specific tasks
+"""
 class SubtaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Subtask.objects.all()
     serializer_class = SubTaskSerializer   
  
-
+"""
+This view handles login
+"""
 class LoginView(ObtainAuthToken): 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -59,7 +72,9 @@ class LoginView(ObtainAuthToken):
             'last_name': user.last_name,
             'email': user.email}) 
     
-
+"""
+This view handles logout
+"""
 class LogoutView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -68,11 +83,15 @@ class LogoutView(APIView):
         request.auth.delete()
         return Response({'message': 'Logout erfolgreich'}, status=status.HTTP_200_OK)
 
-
+"""
+This view handles registering a new user
+"""
 class RegistrationView(generics.CreateAPIView):
     serializer_class = UserSerializer 
 
-
+"""
+This view checks if the email send from the frontend is existent in the user db and returns a unique link including a token and a uidb
+"""
 class ForgotView(APIView):
     def post(self, request):
         email = request.data.get('email', None)
@@ -96,7 +115,9 @@ class ForgotView(APIView):
         except User.DoesNotExist:
             return Response({'exists': False}, status=200)
         
-
+"""
+This view returns a crsf token to the frontend
+"""
 class CSRFTokenView(View):
     def get(self, request, *args, **kwargs):
         token = get_token(request)
@@ -105,7 +126,9 @@ class CSRFTokenView(View):
         response["Access-Control-Allow-Credentials"] = "true"
         return response
 
-
+"""
+This view resets the password in the backend with the one entered in the frontend
+"""
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
     def post(self, request, *args, **kwargs):
@@ -126,21 +149,3 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
         return Response({'success': 'Passwort erfolgreich zurückgesetzt'}, status=200)
     
-#def custom_password_reset_confirm(request, uidb64, token):
-#    try:
-#        uid = urlsafe_base64_decode(uidb64).decode('utf-8')
-#        user = get_object_or_404(User, pk=uid)
-#        
-#        if not PasswordResetTokenGenerator().check_token(user, token):
-#            return JsonResponse({'error': 'Ungültiges Token'}, status=400)
-#
-#        if request.method == 'POST':
-#            new_password = request.POST.get('password', None)
-#            user.set_password(new_password)
-#            user.save()
-#            return JsonResponse({'success': 'Passwort erfolgreich zurückgesetzt'}, status=200)
-#
-#    except Exception as e:
-#        return JsonResponse({'error': str(e)}, status=400)
-#
-#    return JsonResponse({'error': 'Ungültige Anfrage'}, status=400)

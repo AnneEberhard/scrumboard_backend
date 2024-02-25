@@ -5,7 +5,9 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.hashers import make_password
 
-
+"""
+This models defines the contacts
+"""
 class Contact(models.Model):
     user_name = models.CharField(max_length=50, default='')
     email = models.CharField(max_length=30)
@@ -13,7 +15,9 @@ class Contact(models.Model):
     acronym = models.CharField(max_length=3)
     color = models.CharField(max_length=15)
 
-
+"""
+This models defines the tasks
+"""
 class Task(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     created_at = models.DateField(default=date.today)
@@ -25,17 +29,24 @@ class Task(models.Model):
     prio = models.CharField(max_length=15, default='')
     column = models.CharField(max_length=50, default='')
     
-
+"""
+This models defines the subtasks
+"""
 class Subtask(models.Model):
     subTaskName = models.TextField(default='')
     subTaskDone = models.BooleanField(default=False)
     taskId = models.ForeignKey(Task, on_delete=models.CASCADE)
 
-
+"""
+This models defines the user defined categories
+"""
 class UserDefCategory(models.Model):
     name = models.CharField(max_length=15)
     colorCode = models.CharField(max_length=15)
 
+"""
+This models extends the baseUserManager model and is needed for a correct password creation
+"""
 class UserManager(BaseUserManager):
     use_in_migration = True
     def _create_user(self, username, email, password, **extra_fields):
