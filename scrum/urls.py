@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.conf.urls.static import static
 from scrumboard.views import CSRFTokenView, ContactView, CustomPasswordResetConfirmView, ForgotView, LogoutView,LoginView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
@@ -38,4 +38,5 @@ urlpatterns = [
     path('forgot/', ForgotView.as_view()),
     path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('get_csrf_token/', CSRFTokenView.as_view()),
+    #path('password_reset/', include('django_rest_passwordreset.urls', namespace= 'password_reset'))
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 

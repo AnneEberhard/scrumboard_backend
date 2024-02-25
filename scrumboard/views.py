@@ -130,7 +130,8 @@ class CSRFTokenView(View):
 This view resets the password in the backend with the one entered in the frontend
 """
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-
+    from django.views.decorators.csrf import csrf_exempt
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         print('yes')
         uidb64 = kwargs['uidb64']
