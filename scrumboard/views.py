@@ -14,9 +14,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.auth.views import PasswordResetConfirmView
-from django.middleware.csrf import get_token
-from django.views import View
+from django.core.mail import send_mail
 
 """
 This view handles the contacts
@@ -108,32 +106,24 @@ class ForgotView(APIView):
 
             reset_link = f"http://127.0.0.1:5500/reset.html?uidb64={uidb64}&token={token}"
 
-            # TODO: Hier E-Mail-Versand einfügen, z.B., mit Django send_mail
+                        
+            subject = 'Passwort zurücksetzen'
+            message = f'Hallo {user.username}, klicken Sie auf den folgenden Link, um Ihr JOIN-Passwort zurückzusetzen: {reset_link}'
+            from_email = 'noreply@example.com'  
+            recipient_list = [user.email]
+
+            send_mail(subject, message, from_email, recipient_list)
 
             return Response({'exists': True, 'reset_link': reset_link}, status=200)
 
         except User.DoesNotExist:
             return Response({'exists': False}, status=200)
-        
-"""
-This view returns a crsf token to the frontend
-"""
-class CSRFTokenView(View):
-    def get(self, request, *args, **kwargs):
-        token = get_token(request)
-        response = JsonResponse({'csrfToken': token})
-        response["Access-Control-Allow-Origin"] = "http://127.0.0.1:5500" 
-        response["Access-Control-Allow-Credentials"] = "true"
-        return response
 
 """
 This view resets the password in the backend with the one entered in the frontend
 """
-class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    from django.views.decorators.csrf import csrf_exempt
-    @csrf_exempt
+class PasswordResetConfirmView(APIView):
     def post(self, request, *args, **kwargs):
-        print('yes')
         uidb64 = kwargs['uidb64']
         token = kwargs['token']
         new_password = request.data.get('password', None)
@@ -150,3 +140,4 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
         return Response({'success': 'Passwort erfolgreich zurückgesetzt'}, status=200)
     
+
