@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'scrumboard',
-    #'django_rest_passwordreset'
 ]
 
 MIDDLEWARE = [
