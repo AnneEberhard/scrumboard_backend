@@ -18,16 +18,13 @@ class TaskTest(TestCase):
         print(f"Hallo, {token}")
         return token
 
+
     def test_taskpage(self):
         token = self.authenticate_user('test_user', 'test_user')
         print(f"Hallo again, {token}")
-        headers = {'Authorization': f'Bearer {token}'}
-
-        response = self.client.get('/tasks/', headers=headers)
+        response = self.client.get('/tasks/', HTTP_AUTHORIZATION=f'Token {token}')
+        print(response)
         self.assertEqual(response.status_code, 200)
-
-
-
 
 
         
