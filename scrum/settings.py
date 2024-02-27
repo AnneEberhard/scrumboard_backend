@@ -30,9 +30,9 @@ ALLOWED_HOSTS = ['localhost',
     '127.0.0.1',
     'anne.pythonanywhere.com']
 
-CORS_ALLOWED_ORIGINS = [ '*', 'localhost', '127.0.0.1', "http://localhost:5500", "http://127.0.0.1:5500","https://anne-eberhard.developerakademie.net/scrum-frontend"]
+CORS_ALLOWED_ORIGINS = ['localhost', '127.0.0.1', "http://localhost:5500", "http://127.0.0.1:5500","https://anne-eberhard.developerakademie.net/"]
 
-CORS_ALLOW_CREDENTIALS = True 
+CORS_ALLOW_CREDENTIALS = False 
 
 #CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5500']
 #
