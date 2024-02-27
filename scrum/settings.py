@@ -34,11 +34,11 @@ CORS_ALLOWED_ORIGINS = [ '*', 'localhost', '127.0.0.1', "http://localhost:5500",
 
 CORS_ALLOW_CREDENTIALS = True 
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5500']
-
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = None
-SET_COOKIE_SAMESITE = None
+#CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5500']
+#
+#CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_SAMESITE = None
+#SET_COOKIE_SAMESITE = None
 
 # Application definition
 
