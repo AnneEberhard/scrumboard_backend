@@ -103,7 +103,8 @@ class ForgotView(APIView):
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             token = token_generator.make_token(user)
 
-            reset_link = f"http://127.0.0.1:5500/reset.html?uidb64={uidb64}&token={token}"
+            #reset_link = f"http://127.0.0.1:5500/reset.html?uidb64={uidb64}&token={token}"
+            reset_link = f"https://anne-eberhard.developerakademie.net/scrum-frontend/reset.html?uidb64={uidb64}&token={token}"
             print(reset_link)
                         
             subject = 'Passwort zurücksetzen'
