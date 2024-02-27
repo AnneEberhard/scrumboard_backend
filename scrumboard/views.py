@@ -20,7 +20,7 @@ This view handles the contacts
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     #authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
