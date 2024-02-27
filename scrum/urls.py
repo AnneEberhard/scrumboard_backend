@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.conf.urls.static import static
-from scrumboard.views import ContactView, ForgotView, LogoutView,LoginView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
+from scrumboard.views import ContactAtRegisterView, ContactView, ForgotView, LogoutView,LoginView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
 
 
 urlpatterns = [
@@ -37,4 +37,5 @@ urlpatterns = [
     path('subTasks/<int:pk>/', SubtaskView.as_view(), name='subtask-detail'),
     path('forgot/', ForgotView.as_view()),
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('contacts-at-register/', ContactAtRegisterView.as_view(), name='contacts-at-register'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 

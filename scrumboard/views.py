@@ -1,26 +1,27 @@
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from scrumboard.serializer import ContactSerializer, SubTaskSerializer, TaskSerializer, UserDefCategorySerializer, UserSerializer
-from .models import Contact, Subtask, Task, UserDefCategory
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from rest_framework import generics
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
+from scrumboard.serializer import ContactSerializer, SubTaskSerializer, TaskSerializer, UserDefCategorySerializer, UserSerializer
+from .models import Contact, Subtask, Task, UserDefCategory
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework import generics
+
 
 """
 This view handles the contacts
 """
 
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    #authentication_classes = [TokenAuthentication]
-    #permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
@@ -103,7 +104,7 @@ class ForgotView(APIView):
             token = token_generator.make_token(user)
 
             reset_link = f"http://127.0.0.1:5500/reset.html?uidb64={uidb64}&token={token}"
-
+            print(reset_link)
                         
             subject = 'Passwort zurücksetzen'
             message = f'Hallo {user.username}, klicken Sie auf den folgenden Link, um Ihr JOIN-Passwort zurückzusetzen: {reset_link}'
@@ -137,5 +138,11 @@ class PasswordResetConfirmView(APIView):
         user.save()
 
         return Response({'success': 'Passwort erfolgreich zurückgesetzt'}, status=200)
-    
 
+
+"""
+This view is for createing a contact when a user registers
+"""    
+class ContactAtRegisterView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
