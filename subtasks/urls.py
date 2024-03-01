@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import SubtaskViewSet
 
 router = DefaultRouter()
-router.register(r'subtasks', SubtaskViewSet, basename='subtask')
+router.register(r'subtasks', SubtaskViewSet)
 
 urlpatterns = [
     path('', SubtaskViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list'),

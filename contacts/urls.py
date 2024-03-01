@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import ContactViewSet
 
 router = DefaultRouter()
-router.register(r'contacts', ContactViewSet, basename='contact')
+router.register(r'contacts', ContactViewSet)
 
 urlpatterns = [
     path('', ContactViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list'),
