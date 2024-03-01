@@ -4,8 +4,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
 from contacts.serializer import ContactSerializer
-from .serializer import SubTaskSerializer, TaskSerializer, UserSerializer
-from .models import Subtask, Task
+from .serializer import UserSerializer
 from contacts.models import Contact
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -18,27 +17,7 @@ from rest_framework import generics
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-
-
-"""
-This view handles the tasks
-"""   
-class TaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-
-
-  
-"""
-This view handles the subtasks and is linked to a specific tasks
-"""
-class SubtaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    queryset = Subtask.objects.all()
-    serializer_class = SubTaskSerializer   
+ 
  
 """
 This view handles login

@@ -1,24 +1,6 @@
-from .models import Subtask, Task
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-
-"""
-This serializer handles the tasksFC
-"""
-class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = '__all__'
-
-
-"""
-This serializer handles the subtasks
-"""
-class SubTaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subtask
-        fields = '__all__'
 
 """
 This serializer handles the user and assures a correct password is created

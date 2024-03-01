@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'scrumboard',
     'contacts',
     'categories',
+    'tasks',
+    'subtasks',
 ]
 
 MIDDLEWARE = [

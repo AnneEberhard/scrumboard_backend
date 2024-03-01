@@ -1,36 +1,6 @@
-from datetime import date
 from django import apps
-from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.hashers import make_password
-
-from contacts.models import Contact
-
-
-
-"""
-This models defines the tasks
-"""
-class Task(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateField(default=date.today)
-    title = models.CharField(max_length=15, default='')
-    description = models.TextField(default='')
-    category = models.CharField(max_length=30, default='')
-    assignedContacts = models.ManyToManyField(Contact)
-    dueDate = models.DateField(default=date.today)
-    prio = models.CharField(max_length=15, default='')
-    column = models.CharField(max_length=50, default='')
-    
-"""
-This models defines the subtasks
-"""
-class Subtask(models.Model):
-    subTaskName = models.TextField(default='')
-    subTaskDone = models.BooleanField(default=False)
-    taskId = models.ForeignKey(Task, on_delete=models.CASCADE)
-
 
 
 """

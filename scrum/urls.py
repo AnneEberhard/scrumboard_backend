@@ -20,7 +20,9 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from contacts.views import ContactView
 from categories.views import UserDefCategoryView
-from scrumboard.views import ContactAtRegisterView, CustomAuthToken, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView
+from tasks.views import TaskView
+from subtasks.views import SubtaskView
+from scrumboard.views import ContactAtRegisterView, CustomAuthToken, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView
 
 
 urlpatterns = [
