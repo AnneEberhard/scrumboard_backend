@@ -4,8 +4,9 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
 from contacts.serializer import ContactSerializer
-from scrumboard.serializer import SubTaskSerializer, TaskSerializer, UserDefCategorySerializer, UserSerializer
-from .models import Contact, Subtask, Task, UserDefCategory
+from .serializer import SubTaskSerializer, TaskSerializer, UserSerializer
+from .models import Subtask, Task
+from contacts.models import Contact
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -29,14 +30,6 @@ class TaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
     serializer_class = TaskSerializer
 
 
-"""
-This view handles the user defined categories
-"""
-class UserDefCategoryView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    queryset = UserDefCategory.objects.all()
-    serializer_class = UserDefCategorySerializer  
   
 """
 This view handles the subtasks and is linked to a specific tasks

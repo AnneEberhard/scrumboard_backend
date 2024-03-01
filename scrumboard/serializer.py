@@ -1,4 +1,4 @@
-from .models import Subtask, Task, UserDefCategory
+from .models import Subtask, Task
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -11,13 +11,6 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
-"""
-This serializer handles the categories defined by the users
-"""
-class UserDefCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserDefCategory
-        fields = '__all__'
 
 """
 This serializer handles the subtasks

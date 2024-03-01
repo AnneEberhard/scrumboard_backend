@@ -31,12 +31,7 @@ class Subtask(models.Model):
     subTaskDone = models.BooleanField(default=False)
     taskId = models.ForeignKey(Task, on_delete=models.CASCADE)
 
-"""
-This models defines the user defined categories
-"""
-class UserDefCategory(models.Model):
-    name = models.CharField(max_length=15)
-    colorCode = models.CharField(max_length=15)
+
 
 """
 This models extends the baseUserManager model and is needed for a correct password creation
