@@ -1,10 +1,11 @@
-from .models import UserDefCategory
+from .models import Category
 from rest_framework import serializers
 
 """
 This serializer handles the categories defined by the users
 """
-class UserDefCategorySerializer(serializers.ModelSerializer):
+class CategoryViewSetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserDefCategory
-        fields = '__all__'
+        model = Category
+        fields = ['name', 'colorCode']
+        #fields = '__all__'

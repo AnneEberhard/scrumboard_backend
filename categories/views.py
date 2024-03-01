@@ -1,15 +1,17 @@
-from django.shortcuts import render
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
-from .serializer import UserDefCategorySerializer
-from .models import UserDefCategory
+from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.response import Response
+from .serializer import CategoryViewSetSerializer
+from .models import Category
 
 """
 This view handles the user defined categories
 """
-class UserDefCategoryView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    queryset = UserDefCategory.objects.all()
-    serializer_class = UserDefCategorySerializer  
+class CategoryViewSet(viewsets.ModelViewSet):
+    #authentication_classes = [TokenAuthentication]
+    #permission_classes = [IsAuthenticated]
+    queryset = Category.objects.all()
+    serializer_class = CategoryViewSetSerializer
+

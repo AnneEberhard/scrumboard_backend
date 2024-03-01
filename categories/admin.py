@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import UserDefCategory
+from .models import Category
 
-class UserDefCategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'colorCode')
 
-admin.site.register(UserDefCategory, UserDefCategoryAdmin)
+admin.site.register(Category, CategoryAdmin)

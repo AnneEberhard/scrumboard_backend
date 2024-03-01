@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from contacts.views import ContactView
-from categories.views import UserDefCategoryView
 from tasks.views import TaskView
 from subtasks.views import SubtaskView
 from scrumboard.views import ContactAtRegisterView, CustomAuthToken, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView
+from rest_framework.routers import DefaultRouter
+from categories import urls as categories_urls
 
 
 urlpatterns = [
@@ -32,11 +33,10 @@ urlpatterns = [
     path('logout/', LogoutView.as_view()),
     path('contacts/', ContactView.as_view()),
     path('tasks/', TaskView.as_view()),
-    path('savedCategories/', UserDefCategoryView.as_view()),
+    path('categories/', include(categories_urls)),
     path('subTasks/', SubtaskView.as_view()),
     path('contacts/<int:pk>/', ContactView.as_view(), name='contact-detail'),
     path('tasks/<int:pk>/', TaskView.as_view(), name='task-detail'),
-    path('savedCategories/<int:pk>/', UserDefCategoryView.as_view(), name='userDefCategory-detail'),
     path('subTasks/<int:pk>/', SubtaskView.as_view(), name='subtask-detail'),
     path('forgot/', ForgotView.as_view()),
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
