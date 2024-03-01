@@ -19,12 +19,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.conf.urls.static import static
-from scrumboard.views import ContactAtRegisterView, ContactView, ForgotView, LogoutView,LoginView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
+from scrumboard.views import ContactAtRegisterView, ContactView, CustomAuthToken, LoginView, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', LoginView.as_view()),
+    path('login/', CustomAuthToken.as_view(), name='login'),
     path('register/', RegistrationView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('contacts/', ContactView.as_view()),

@@ -13,12 +13,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
 
 """
 This view handles the contacts
 """
-
 class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -57,17 +58,67 @@ class SubtaskView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIV
 """
 This view handles login
 """
-class LoginView(ObtainAuthToken): 
+class CustomAuthTokenSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(
+        style={'input_type': 'password'},
+        trim_whitespace=False
+    )
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        if email and password:
+            user = get_user_model().objects.filter(email=email).first()
+
+            if user and user.check_password(password):
+                attrs['user'] = user
+                return attrs
+
+        msg = 'Unable to log in with provided credentials.'
+        raise serializers.ValidationError(msg)
+
+class CustomAuthToken(ObtainAuthToken):
+    serializer_class = CustomAuthTokenSerializer
+
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
+
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
+
         return Response({'token': token.key,
-            'user_id': user.pk,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email}) 
+                                 'user_id': user.pk,
+                                 'first_name': user.first_name,
+                                 'last_name': user.last_name,
+                                 'email': user.email})
+
+
+
+class LoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data.get('email')
+        password = serializer.validated_data.get('password')
+
+        if email and password:
+            user = get_user_model().objects.filter(email=email).first()
+
+            if user and user.check_password(password):
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key,
+                                 'user_id': user.pk,
+                                 'first_name': user.first_name,
+                                 'last_name': user.last_name,
+                                 'email': user.email})
+        
+        return Response({'error': 'Invalid credentials'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     
 """
 This view handles logout
