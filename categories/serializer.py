@@ -4,8 +4,7 @@ from rest_framework import serializers
 """
 This serializer handles the categories defined by the users
 """
-class CategoryViewSetSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name', 'colorCode']
-        #fields = '__all__'
+        fields = '__all__'
