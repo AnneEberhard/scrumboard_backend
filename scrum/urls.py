@@ -17,9 +17,9 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken.views import ObtainAuthToken
 from django.conf.urls.static import static
-from scrumboard.views import ContactAtRegisterView, ContactView, CustomAuthToken, LoginView, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
+from contacts.views import ContactView
+from scrumboard.views import ContactAtRegisterView, CustomAuthToken, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView, SubtaskView, TaskView, UserDefCategoryView
 
 
 urlpatterns = [

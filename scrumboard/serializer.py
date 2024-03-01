@@ -1,17 +1,10 @@
-from .models import Contact, Subtask, Task, UserDefCategory
+from .models import Subtask, Task, UserDefCategory
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-"""
-This serializer handles the contacts
-"""
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = '__all__'
 
 """
-This serializer handles the tasks
+This serializer handles the tasksFC
 """
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:

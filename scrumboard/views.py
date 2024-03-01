@@ -3,7 +3,8 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
-from scrumboard.serializer import ContactSerializer, SubTaskSerializer, TaskSerializer, UserDefCategorySerializer, UserSerializer
+from contacts.serializer import ContactSerializer
+from scrumboard.serializer import SubTaskSerializer, TaskSerializer, UserDefCategorySerializer, UserSerializer
 from .models import Contact, Subtask, Task, UserDefCategory
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -16,15 +17,6 @@ from rest_framework import generics
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-
-"""
-This view handles the contacts
-"""
-class ContactView(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
 
 
 """
