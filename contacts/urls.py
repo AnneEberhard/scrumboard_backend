@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register(r'contacts', ContactViewSet)
 
 urlpatterns = [
-    path('', ContactViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list'),
-    path('<int:pk>/', ContactViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='category-detail'),
+    path('', ContactViewSet.as_view({'get': 'list', 'post': 'create'}), name='contact-list'),
+    path('<int:pk>/', ContactViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='contact-detail'),
 ]

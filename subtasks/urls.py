@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register(r'subtasks', SubtaskViewSet)
 
 urlpatterns = [
-    path('', SubtaskViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list'),
-    path('<int:pk>/', SubtaskViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='category-detail'),
+    path('', SubtaskViewSet.as_view({'get': 'list', 'post': 'create'}), name='subtask-list'),
+    path('<int:pk>/', SubtaskViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='subtask-detail'),
 ]
