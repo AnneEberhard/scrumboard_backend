@@ -18,7 +18,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from scrumboard.views import ContactAtRegisterView, CustomAuthToken, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView
+from scrumboard.views import ContactAtRegisterView, LoginView, ForgotView, LogoutView, PasswordResetConfirmView, RegistrationView
 from categories import urls as categories_urls
 from tasks import urls as tasks_urls
 from contacts import urls as contacts_urls
@@ -27,7 +27,7 @@ from subtasks import urls as subtasks_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', CustomAuthToken.as_view(), name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('register/', RegistrationView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('contacts/', include(contacts_urls)),

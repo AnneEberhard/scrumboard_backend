@@ -4,7 +4,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
 from contacts.serializer import ContactSerializer
-from .serializer import UserSerializer
+from .serializer import LoginViewSerializer, UserSerializer
 from contacts.models import Contact
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -15,36 +15,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 
- 
+
  
 """
 This view handles login
 """
-class CustomAuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(
-        style={'input_type': 'password'},
-        trim_whitespace=False
-    )
-
-    def validate(self, attrs):
-        email = attrs.get('email')
-        password = attrs.get('password')
-
-        if email and password:
-            user = get_user_model().objects.filter(email=email).first()
-
-            if user and user.check_password(password):
-                attrs['user'] = user
-                return attrs
-
-        msg = 'Unable to log in with provided credentials.'
-        raise serializers.ValidationError(msg)
-
-class CustomAuthToken(ObtainAuthToken):
-    serializer_class = CustomAuthTokenSerializer
+class LoginView(ObtainAuthToken):
+    serializer_class = LoginViewSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request': request})
@@ -59,30 +37,6 @@ class CustomAuthToken(ObtainAuthToken):
                                  'last_name': user.last_name,
                                  'email': user.email})
 
-
-
-class LoginView(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-
-        email = serializer.validated_data.get('email')
-        password = serializer.validated_data.get('password')
-
-        if email and password:
-            user = get_user_model().objects.filter(email=email).first()
-
-            if user and user.check_password(password):
-                token, created = Token.objects.get_or_create(user=user)
-                return Response({'token': token.key,
-                                 'user_id': user.pk,
-                                 'first_name': user.first_name,
-                                 'last_name': user.last_name,
-                                 'email': user.email})
-        
-        return Response({'error': 'Invalid credentials'},
-                        status=status.HTTP_401_UNAUTHORIZED)
     
 """
 This view handles logout
@@ -95,11 +49,13 @@ class LogoutView(APIView):
         request.auth.delete()
         return Response({'message': 'Logout erfolgreich'}, status=status.HTTP_200_OK)
 
+
 """
 This view handles registering a new user
 """
 class RegistrationView(generics.CreateAPIView):
     serializer_class = UserSerializer 
+
 
 """
 This view checks if the email send from the frontend is existent in the user db and returns a unique link including a token and a uidb
@@ -133,6 +89,7 @@ class ForgotView(APIView):
 
         except User.DoesNotExist:
             return Response({'exists': False}, status=200)
+
 
 """
 This view resets the password in the backend with the one entered in the frontend
