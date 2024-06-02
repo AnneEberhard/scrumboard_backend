@@ -30,7 +30,11 @@ ALLOWED_HOSTS = ['localhost',
     '127.0.0.1',
     'anne.pythonanywhere.com']
 
-CORS_ALLOWED_ORIGINS = ['localhost', '127.0.0.1', "http://localhost:5500", "http://127.0.0.1:5500","join.anne-eberhard.de/"]
+CORS_ALLOWED_ORIGINS = ['localhost', 
+                        '127.0.0.1', 
+                        "http://localhost:5500", 
+                        "http://127.0.0.1:5500",
+                        "http://join.anne-eberhard.de/","https://join.anne-eberhard.de/"]
 
 CORS_ALLOW_CREDENTIALS = True 
 
